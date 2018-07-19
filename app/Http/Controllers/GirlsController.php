@@ -42,6 +42,8 @@ class GirlsController extends Controller
             return $this->getImages($c, $p);
         });
 
+        dd($data);
+
         return apiSuccess('success', $data);
     }
 
@@ -115,7 +117,7 @@ class GirlsController extends Controller
         $imageArray = [];
         foreach ($img_src[1] as $key => $src) {
             $imageArray[$key]['thumbSrc'] = $src;
-            $imageArray[$key]['href'] = $a_href[1][$key];
+            $imageArray[$key]['href'] = array_unique($a_href[1])[$key];
             $imageArray[$key]['alt'] = strip_tags($img_alt[1][$key]);
         }
 
