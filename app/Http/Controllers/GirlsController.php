@@ -112,10 +112,12 @@ class GirlsController extends Controller
         $href = "/<a[^<>]+href *\= *[\"']?(http\:\/\/[^ '\"]+)/i";
         preg_match_all($href, $match[0][0], $a_href);  //正则匹配图片href
 
+        $a_href = array_merge(array_unique($a_href[1]));
+
         $imageArray = [];
         foreach ($img_src[1] as $key => $src) {
             $imageArray[$key]['thumbSrc'] = $src;
-            $imageArray[$key]['href'] = array_unique($a_href[1])[$key];
+            $imageArray[$key]['href'] = $a_href[$key];
             $imageArray[$key]['alt'] = strip_tags($img_alt[1][$key]);
         }
 
