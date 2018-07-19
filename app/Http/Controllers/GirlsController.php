@@ -34,7 +34,9 @@ class GirlsController extends Controller
     public function imageList(Request $request)
     {
         $c = $request->get('c');
-        $p = $request->get('p');
+        $p = $request->get('p', 1);
+
+        $c = substr_replace($c, '_' . $p, -5, 0);
 
         $data = Cache::remember('MEIZI_IMAGES_LIST_PAGE_' . $p . '_URL' . $c, 10, function () use ($c, $p) {
             return $this->getImages($c, $p);
@@ -90,12 +92,12 @@ class GirlsController extends Controller
      * Users Flying Oranges
      * CreateTime 2018/7/19
      * @param $url
-     * @param $page
      * @return array
      */
-    private function getImages($url, $page)
+    private function getImages($url)
     {
         $content = file_get_contents($url);
+
         $content = iconv("gb2312", "utf-8//IGNORE", $content);
 
         $regex = "/<ul class=\"wp-list clearfix\".*?>.*?<\/ul>/ism";//正则匹配ul 得到图片区域信息
