@@ -36,7 +36,12 @@ class GirlsController extends Controller
         $c = $request->get('c');
         $p = $request->get('p', 1);
 
-        $c = substr_replace($c, '_' . $p, -5, 0);
+        if (substr($c, -7, 2) == '_1') {
+            $strlen = strlen($c) - 7;
+            $c = substr($c, 0, $strlen) . '_' . $p . '.html';
+        } else {
+            $c = substr_replace($c, '_' . $p, -5, 0);
+        }
 
         $data = Cache::remember('MEIZI_IMAGES_LIST_PAGE_' . $p . '_URL' . $c, 10, function () use ($c, $p) {
             return $this->getImages($c, $p);
