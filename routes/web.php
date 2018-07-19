@@ -15,7 +15,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::group(['middleware' => 'requestToken'], function ($route) {
+Route::group(['middleware' => ['requestToken']], function ($route) {
+
     $route->get('/tags', 'GirlsController@tags')->name('girls.tags.list');
 
     $route->get('/girls', 'GirlsController@imageList')->name('girls.image.list');
