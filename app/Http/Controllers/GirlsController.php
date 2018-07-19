@@ -42,8 +42,6 @@ class GirlsController extends Controller
             return $this->getImages($c, $p);
         });
 
-        dd($data);
-
         return apiSuccess('success', $data);
     }
 
