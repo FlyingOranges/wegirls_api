@@ -40,7 +40,9 @@ class GirlsController extends Controller
             $strlen = strlen($c) - 7;
             $c = substr($c, 0, $strlen) . '_' . $p . '.html';
         } else {
-            $c = substr_replace($c, '_' . $p, -5, 0);
+            if ($p != 1) {
+                $c = substr_replace($c, '_' . $p, -5, 0);
+            }
         }
 
         $data = Cache::remember('MEIZI_IMAGES_LIST_PAGE_' . $p . '_URL' . $c, 10, function () use ($c, $p) {
@@ -101,7 +103,7 @@ class GirlsController extends Controller
      */
     private function getImages($url)
     {
-        $content = file_get_contents($url);
+        $content = $this->curlGetImage($url);
 
         $content = iconv("gb2312", "utf-8//IGNORE", $content);
 
@@ -180,5 +182,26 @@ class GirlsController extends Controller
 
         $data = array_slice($data, 0, $number);
         return $data;
+    }
+
+    /**
+     * Tag 发送请求(Get)
+     *
+     * Users Flying Oranges
+     * CreateTime 2018/7/19
+     * @param $url
+     * @return mixed
+     */
+    private function curlGetImage($url)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+        $content = curl_exec($ch);
+
+        curl_close($ch);
+
+        return $content;
     }
 }
