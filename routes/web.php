@@ -14,3 +14,11 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::group(['middleware' => 'requestToken'], function ($route) {
+    $route->get('/tags', 'GirlsController@tags')->name('girls.tags.list');
+
+    $route->get('/girls', 'GirlsController@imageList')->name('girls.image.list');
+
+    $route->get('/girlsInfo', 'GirlsController@image')->name('girls.image.info');
+});
