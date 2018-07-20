@@ -16,7 +16,7 @@ class GirlsController extends Controller
      */
     public function tags()
     {
-        $data = Cache::remember('MEIZI_DATA_TAGS', 10, function () {
+        $data = Cache::remember('MEIZI_DATA_TAGS', 1 * 60 * 24, function () {
             return $this->interception($this->getTages('http://www.meizitu.com'));
         });
 
