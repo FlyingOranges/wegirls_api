@@ -16,7 +16,7 @@ class GirlsController extends Controller
      */
     public function tags()
     {
-        $data = Cache::remember('MEIZI_DATA_TAGS', 1 * 60 * 24, function () {
+        $data = Cache::remember('MEIZI_DATA_TAGS', 60 * 24, function () {
             return $this->interception($this->getTages('http://www.meizitu.com'));
         });
 
@@ -45,7 +45,7 @@ class GirlsController extends Controller
             }
         }
 
-        $data = Cache::remember('MEIZI_IMAGES_LIST_PAGE_' . $p . '_URL' . $c, 10, function () use ($c, $p) {
+        $data = Cache::remember('MEIZI_IMAGES_LIST_PAGE_' . $p . '_URL' . $c, 60 * 24 * 7, function () use ($c, $p) {
             return $this->getImages($c, $p);
         });
 
